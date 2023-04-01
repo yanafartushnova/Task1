@@ -20,13 +20,12 @@ int* random_generate(int COUNT_NUMBERS) {
     return result;
 }
 
-void check(list<int> seq, int thr, int size) {
+void check(list<int> seq, int thr, int size, int SIZE_SEQ) {
     list <int> ::iterator it;
-    int i = 0;
-    for (it = seq.begin(); it != seq.end(); it++){
-        string s = "Число " + to_string((*it)) + "     Позиция " + to_string(i) + "     Номер потока " + to_string(thr) + "\n";
+    int i;
+    for (it = seq.begin(), i = 0; it != seq.end(); it++, i++) {
+        string s = "Число " + to_string((*it)) + "     Позиция " + to_string(SIZE_SEQ*thr + i) + "     Номер потока " + to_string(thr) + "\n";
         if ((*it) % 3 == 0) cout << s;
-        i++;
     }
 }
 
@@ -53,7 +52,7 @@ int main() {
             seq.push_back(numbers[i * SIZE_SEQ + j]);
 
         }
-        Threads[i] = thread(check, seq, i, size);
+        Threads[i] = thread(check, seq, i, size, SIZE_SEQ);
         start_seq = end_seq;
     }
     for (int i = 0; i < COUNT_THREAD; i++) {
